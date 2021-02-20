@@ -1,26 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
+import axios from './axios';
 
-function App() {
+interface Albums {
+  artworkUrl100: string;
+  releaseDate: string;
+  artistName: string;
+  collectionName: string;
+  collectionId: string;
+}
+
+const App: React.FC = () => {
+  const [albums, setAlbums] = useState<Array<Albums>>([]);
+  useEffect(() => {
+    const fetchApi = async () => {
+      await axios
+        .get('/')
+        .then((response) => {
+          console.log(response);
+          setAlbums(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    fetchApi();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='app'>
+      <h1>My Favorite Albums</h1>
+      <div className='album_list'>
+        {albums?.map(
+          (item) =>
+            item.collectionName && (
+              <div className='album_list_entity' key={item.collectionId}>
+                <div className='album_list_entity_left'>
+                  <img src={item.artworkUrl100} />
+                </div>
+                <div className='album_list_entity_right'>
+                  <p>{item.artistName}</p>
+                  <p>{item.collectionName}</p>
+                  <p>{item.releaseDate?.substring(0, 10)}</p>
+                </div>
+              </div>
+            )
+        )}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
