@@ -4,23 +4,3 @@
   align-items: center;
   flex-direction: column;
 }
-
-.app h1 {
-  border: 1px solid red;
-
-  width: fit-content;
-}
-
-.album_list_entity {
-  border: 1px solid red;
-  margin: 20px 20px;
-  display: flex;
-}
-
-.album_list_entity_right {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid red;
-  margin-left: 10px;
-  justify-content: space-evenly;
-}
