@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import axios from './axios';
 import Album from './components/Album';
@@ -14,16 +14,13 @@ interface Albums {
 const App: React.FC = () => {
   const [albums, setAlbums] = useState<Array<Albums>>([]);
   useEffect(() => {
-    try {
-      const fetchApi = async () => {
-        const response = await axios.get('/');
-        setAlbums(response.data);
-      };
-      fetchApi();
-    } catch (err) {
-      console.log(err);
-    }
+    const fetchApi = async () => {
+      const response = await axios.get('/');
+      setAlbums(response.data);
+    };
+    fetchApi().catch((err) => console.log(err.response.data));
   }, []);
+
   return (
     <div className='app'>
       <h1>My Favorite Albums</h1>
