@@ -1,6 +1,5 @@
 import Date from './Date';
 import Card from './Card';
-import CardRight from './CardRight';
 
 interface AlbumProps {
   item: {
@@ -16,11 +15,11 @@ const Album: React.FC<AlbumProps> = ({ item }) => {
   return (
     <Card>
       <img src={item.artworkUrl100} alt='album_artWork' />
-      <CardRight>
+      <div style={{ marginLeft: '20px' }}>
         <p>{item.artistName}</p>
         <strong>{item.collectionName}</strong>
         <Date>{item.releaseDate?.substring(0, 10)}</Date>
-      </CardRight>
+      </div>
     </Card>
   );
 };
