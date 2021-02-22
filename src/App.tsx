@@ -1,29 +1,30 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import axios from './axios';
 import Album from './components/Album';
+import fetchApi from './api';
+import NavBar from './components/NavBar';
 
-interface Albums {
+type State = {
   artworkUrl100: string;
   releaseDate: string;
   artistName: string;
   collectionName: string;
   collectionId: string;
-}
+};
 
 const App: React.FC = () => {
-  const [albums, setAlbums] = useState<Array<Albums>>([]);
+  const [albums, setAlbums] = useState<Array<State>>([]);
   useEffect(() => {
-    const fetchApi = async () => {
-      const response = await axios.get('/');
-      setAlbums(response.data);
-    };
-    fetchApi().catch((err) => console.log(err.response.data));
+    fetchApi()
+      .then((response) => {
+        setAlbums(response.data);
+      })
+      .catch((err) => console.log(err.response.data));
   }, []);
 
   return (
     <div className='app'>
-      <h1>My Favorite Albums</h1>
+      <NavBar />
       {albums?.map(
         (item) =>
           item.collectionName && <Album item={item} key={item.collectionId} />
