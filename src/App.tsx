@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import Album from './components/Album';
+import Album from './components/Album/Album';
 import fetchApi from './api';
-import NavBar from './components/NavBar';
+import NavBar from './components/NavBar/NavBar';
 
 type State = {
   artworkUrl100: string;

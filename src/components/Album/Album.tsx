@@ -1,8 +1,8 @@
-import Date from './Date';
-import Card from './Card';
+import Date from '../Date';
+import Card from '../Card';
 
 type AlbumProps = {
-  item: {
+  item?: {
     artworkUrl100: string;
     releaseDate: string;
     artistName: string;
