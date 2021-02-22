@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Album from './components/Album/Album';
-import fetchApi from './api';
+import axios from './shared/axios';
 import NavBar from './components/NavBar/NavBar';
-
-type State = {
-  artworkUrl100: string;
-  releaseDate: string;
-  artistName: string;
-  collectionName: string;
-  collectionId: string;
-};
+import { ituneEndpoint } from './shared/constant';
+import { sortDesc } from './shared/utils';
+import type { AlbumType } from './shared/type';
 
 const App: React.FC = () => {
-  const [albums, setAlbums] = useState<Array<State>>([]);
+  const [albums, setAlbums] = useState<Array<AlbumType>>([]);
   useEffect(() => {
-    fetchApi()
+    axios
+      .get(ituneEndpoint)
       .then((response) => {
-        setAlbums(response.data);
+        const resArray = response.data.results;
+        const sortedArray = sortDesc(resArray);
+        setAlbums(sortedArray);
       })
       .catch((err) => console.log(err.response.data));
   }, []);

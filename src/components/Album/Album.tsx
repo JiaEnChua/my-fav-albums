@@ -1,14 +1,9 @@
 import Date from '../Date';
 import Card from '../Card';
+import type { AlbumType } from '../../shared/type';
 
 type AlbumProps = {
-  item?: {
-    artworkUrl100: string;
-    releaseDate: string;
-    artistName: string;
-    collectionName: string;
-    collectionId: string;
-  };
+  item?: AlbumType;
 };
 
 const Album: React.FC<AlbumProps> = ({ item }) => {
