@@ -8,8 +8,12 @@ For error handling, the app will auto rerender for 3 times if there's something 
 
 ### To start the project
 
+```sh
 npm install && npm start
+```
 
 ### To run test
 
+```sh
 npm test
+```
