@@ -7,6 +7,7 @@ import { sortDesc } from '../../shared/utils';
 import type { AlbumType } from '../../shared/type';
 import styled from 'styled-components';
 import { delay } from 'lodash';
+import NotFound from '../NotFound';
 
 const HomeCard = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const HomeCard = styled.div`
 const Home: React.FC = () => {
   const [albums, setAlbums] = useState<Array<AlbumType>>([]);
   const [loading, setLoading] = useState<Boolean>(true);
-  const [errorHappened, setErrorHappened] = useState<Boolean>(false);
+  const [errorHappened, setErrorHappened] = useState<number>(0);
   const fetchApi = () => {
     axios
       .get(ituneEndpoint)
@@ -30,7 +31,7 @@ const Home: React.FC = () => {
       })
       .catch((err) => {
         setLoading(true);
-        setErrorHappened(true);
+        setErrorHappened(errorHappened + 1);
         console.log(err.response.data);
       });
   };
@@ -39,10 +40,14 @@ const Home: React.FC = () => {
     fetchApi();
   }, []);
 
-  if (errorHappened) {
-    delay(() => {
-      fetchApi();
-    }, 3000);
+  if (errorHappened && loading) {
+    if (errorHappened < 3) {
+      delay(() => {
+        fetchApi();
+      }, 3000);
+    } else {
+      return <NotFound />;
+    }
   }
   return (
     <HomeCard>
