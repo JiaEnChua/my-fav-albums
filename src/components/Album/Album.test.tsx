@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Album from './Album';
+import Album from '.';
 import ReactDOM from 'react-dom';
 
 describe('Album component test', () => {

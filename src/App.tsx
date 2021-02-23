@@ -1,32 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
-import Album from './components/Album/Album';
-import axios from './shared/axios';
-import NavBar from './components/NavBar/NavBar';
-import { ituneEndpoint } from './shared/constant';
-import { sortDesc } from './shared/utils';
-import type { AlbumType } from './shared/type';
+import Home from './components/Home';
+import NotFound from './components/NotFound';
 
 const App: React.FC = () => {
-  const [albums, setAlbums] = useState<Array<AlbumType>>([]);
-  useEffect(() => {
-    axios
-      .get(ituneEndpoint)
-      .then((response) => {
-        const resArray = response.data.results;
-        const sortedArray = sortDesc(resArray);
-        setAlbums(sortedArray);
-      })
-      .catch((err) => console.log(err.response.data));
-  }, []);
-
   return (
     <div className='app'>
-      <NavBar />
-      {albums?.map(
-        (item) =>
-          item.collectionName && <Album item={item} key={item.collectionId} />
-      )}
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route component={NotFound} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 };
