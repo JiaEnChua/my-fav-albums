@@ -22,15 +22,19 @@ const Date = styled.div`
   margin-top: 10px;
 `;
 
+const CardRight = styled.div`
+  margin-left: 20px;
+`;
+
 const Album: React.FC<AlbumProps> = ({ item }) => {
   return (
     <Card>
       <img src={item?.artworkUrl100} alt='album_artWork' />
-      <div style={{ marginLeft: '20px' }}>
+      <CardRight>
         <p>{item?.artistName}</p>
         <strong>{item?.collectionName}</strong>
         <Date>{item?.releaseDate?.substring(0, 10)}</Date>
-      </div>
+      </CardRight>
     </Card>
   );
 };

@@ -6,6 +6,7 @@ import { ituneEndpoint } from '../../shared/constant';
 import { sortDesc } from '../../shared/utils';
 import type { AlbumType } from '../../shared/type';
 import styled from 'styled-components';
+import { delay } from 'lodash';
 
 const HomeCard = styled.div`
   display: flex;
@@ -16,22 +17,43 @@ const HomeCard = styled.div`
 
 const Home: React.FC = () => {
   const [albums, setAlbums] = useState<Array<AlbumType>>([]);
-  useEffect(() => {
+  const [loading, setLoading] = useState<Boolean>(true);
+  const [errorHappened, setErrorHappened] = useState<Boolean>(false);
+  const fetchApi = () => {
     axios
       .get(ituneEndpoint)
       .then((response) => {
         const resArray = response.data.results;
         const sortedArray = sortDesc(resArray);
         setAlbums(sortedArray);
+        setLoading(false);
       })
-      .catch((err) => console.log(err.response.data));
+      .catch((err) => {
+        setLoading(true);
+        setErrorHappened(true);
+        console.log(err.response.data);
+      });
+  };
+
+  useEffect(() => {
+    fetchApi();
   }, []);
+
+  if (errorHappened) {
+    delay(() => {
+      fetchApi();
+    }, 3000);
+  }
   return (
     <HomeCard>
       <NavBar />
-      {albums?.map(
-        (item) =>
-          item.collectionName && <Album item={item} key={item.collectionId} />
+      {!loading ? (
+        albums?.map(
+          (item) =>
+            item.collectionName && <Album item={item} key={item.collectionId} />
+        )
+      ) : (
+        <p>Loading...</p>
       )}
     </HomeCard>
   );
