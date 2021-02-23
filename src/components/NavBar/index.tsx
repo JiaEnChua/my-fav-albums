@@ -28,7 +28,7 @@ const navBarRight = {
   alignItems: 'center',
 };
 
-const NavBar: React.FC = ({}) => {
+const NavBar: React.FC = () => {
   const matches = useMediaQuery('(min-width:500px)');
 
   return (
